@@ -128,3 +128,8 @@
     @apply font-sans;
   }
 }
+@layer utilities {
+  .text-mini {
+    @apply text-xs;
+  }
+}
