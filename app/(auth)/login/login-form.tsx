@@ -5,6 +5,7 @@ import {
   RegisterBodyType,
   RegisterBody,
 } from "@/schemaValidations/auth.schema";
+import envConfig from "@/consfig";
 
 export default function LoginForm() {
   const {
@@ -14,6 +15,7 @@ export default function LoginForm() {
   } = useForm<RegisterBodyType>({
     resolver: zodResolver(RegisterBody),
   });
+  console.log(envConfig.NEXT_PUBLIC_API_ENDPOINT)
 
   return (
     <div>
