@@ -1,4 +1,5 @@
 import ButtonRedirect from "@/app/components/ButtonRedirect";
+import { ModeToggle } from "@/components/mode-tongle";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
@@ -16,6 +17,9 @@ export default function Home() {
         <ButtonRedirect />
         <li>
           <Link href="/register">Register</Link>
+        </li>
+        <li>
+          <ModeToggle/>
         </li>
       </ul>
     </div>
