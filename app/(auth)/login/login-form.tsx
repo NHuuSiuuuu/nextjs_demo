@@ -42,13 +42,35 @@ export default function LoginForm() {
         }
         // thành công
         toast.success("Đăng nhập thành công", { position: "top-right" });
+        return data;
         // toast("Hello", {
         //   description: "Đây là mô tả",
         //   duration: 3000, // 3s
         // });
+      });
+
+      // Gửi dữ liệu login vừa nhận đc từ backend sang Next.js server (API Route)
+      // api/auth - api này là của nextjs server (API Route)
+      const resultFormNextServer = await fetch("api/auth", {
+        method: "POST",
+        body: JSON.stringify(result),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }).then(async (res) => {
+        const payload = await res.json();
+        const data = {
+          status: res.status,
+          payload: payload,
+        };
+
+        if (!res.ok) {
+          throw data;
+        }
         return data;
       });
-      console.log("data", result);
+
+      console.log("data", resultFormNextServer);
     } catch (error) {
       const errors = (error as any).payload.errors as {
         field: string;
