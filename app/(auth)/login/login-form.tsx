@@ -4,8 +4,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { LoginBody, LoginBodyType } from "@/schemaValidations/auth.schema";
 import envConfig from "@/consfig";
 import { toast } from "sonner";
+import { useAppContext } from "@/app/AppProvider";
 
 export default function LoginForm() {
+  const { setSessionToken } = useAppContext();
+
   const {
     register,
     handleSubmit,
@@ -69,8 +72,9 @@ export default function LoginForm() {
         }
         return data;
       });
+      setSessionToken(resultFormNextServer.payload.data.token);
 
-      console.log("data", resultFormNextServer);
+      // console.log("data", resultFormNextServer);
     } catch (error) {
       const errors = (error as any).payload.errors as {
         field: string;

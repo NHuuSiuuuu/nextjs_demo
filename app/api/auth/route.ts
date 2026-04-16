@@ -12,13 +12,15 @@ export async function POST(request: Request) {
       },
     );
   }
-  console.log(res);
+  // console.log(res);
   //   SET COOKIE
-  return Response.json(
-    { res },
-    {
-      status: 200,
-      headers: { "Set-Cookie": `sessionToken=${sessionToken}; Path=/` },
+  return Response.json(res.payload, {
+    status: 200,
+    headers: {
+      "Set-Cookie": `sessionToken=${sessionToken}; Path=/; HttpOnly`,
     },
-  );
+  });
 }
+
+
+// Muốn server next set cookie thì làm như này à

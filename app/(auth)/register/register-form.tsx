@@ -42,7 +42,7 @@ export default function RegisterForm() {
           "Content-Type": "application/json",
         },
       }).then((res) => res.json());
-      console.log("data", values);
+      // console.log("data", values);
     } catch (error: any) {
       console.log(error);
     }

@@ -1,3 +1,4 @@
+import Profile from "@/app/me/profile";
 import envConfig from "@/consfig";
 import { cookies } from "next/headers";
 
@@ -5,7 +6,7 @@ import { cookies } from "next/headers";
 export default async function MeProfile() {
   const cookieStore = await cookies();
   const sessionToken = cookieStore.get("sessionToken");
-  console.log("sessionToken", sessionToken?.value);
+  // console.log("sessionToken", sessionToken?.value);
 
   //   Tại vì api này là private nên khi gửi lên server backend cần gửi lên session toke
   const result = await fetch(
@@ -29,6 +30,11 @@ export default async function MeProfile() {
     }
     return data;
   });
-  console.log("result", result);
-  return <div>Xin chào {result.payload.data.name}</div>;
+  // console.log("result", result);
+  return (
+    <div>
+      Xin chào {result.payload.data.name}
+      <Profile />
+    </div>
+  );
 }
