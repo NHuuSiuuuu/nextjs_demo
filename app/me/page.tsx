@@ -1,3 +1,4 @@
+import accountApiRequest from "@/apiRequests/account";
 import Profile from "@/app/me/profile";
 import envConfig from "@/consfig";
 import { cookies } from "next/headers";
@@ -9,27 +10,7 @@ export default async function MeProfile() {
   // console.log("sessionToken", sessionToken?.value);
 
   //   Tại vì api này là private nên khi gửi lên server backend cần gửi lên session toke
-  const result = await fetch(
-    `${envConfig.NEXT_PUBLIC_API_ENDPOINT}/account/me`,
-    {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${sessionToken?.value}`,
-      },
-    },
-  ).then(async (res) => {
-    const payload = await res.json();
-
-    const data = {
-      status: res.status,
-      payload: payload,
-    };
-
-    if (!res.ok) {
-      throw data;
-    }
-    return data;
-  });
+  const result = await accountApiRequest.me(sessionToken?.value ?? "");
   // console.log("result", result);
   return (
     <div>

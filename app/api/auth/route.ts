@@ -2,7 +2,7 @@
 // Thằng này thực chất là để set cookie vào client
 export async function POST(request: Request) {
   const res = await request.json(); // Lấy dữ liệu client gửi lên khi mà đã gọi api server backend
-  const sessionToken = res.payload?.data?.token; // Lấy token từ data
+  const sessionToken = res.sessionToken as string; // Lấy token từ data
 
   if (!sessionToken) {
     return Response.json(
@@ -14,13 +14,12 @@ export async function POST(request: Request) {
   }
   // console.log(res);
   //   SET COOKIE
-  return Response.json(res.payload, {
+  return Response.json(res, {
     status: 200,
     headers: {
       "Set-Cookie": `sessionToken=${sessionToken}; Path=/; HttpOnly`,
     },
   });
 }
-
 
 // Muốn server next set cookie thì làm như này à

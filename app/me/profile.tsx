@@ -1,5 +1,6 @@
 "use client";
 
+import accountApiRequest from "@/apiRequests/account";
 import { useAppContext } from "@/app/AppProvider";
 import envConfig from "@/consfig";
 import { useContext, useEffect } from "react";
@@ -8,31 +9,10 @@ import { useContext, useEffect } from "react";
 
 export default function Profile() {
   const { sessionToken } = useAppContext();
-
   useEffect(() => {
     const fetchRequest = async () => {
-      const result = await fetch(
-        `${envConfig.NEXT_PUBLIC_API_ENDPOINT}/account/me`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${sessionToken}`,
-          },
-        },
-      ).then(async (res) => {
-        const payload = await res.json();
-
-        const data = {
-          status: res.status,
-          payload: payload,
-        };
-
-        if (!res.ok) {
-          throw data;
-        }
-        return data;
-      });
-      // console.log("resulssst", result);
+      const result = await accountApiRequest.me(sessionToken);
+      console.log("1212212", result);
     };
     fetchRequest();
   }, [sessionToken]);

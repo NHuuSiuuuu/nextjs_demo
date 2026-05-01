@@ -5,9 +5,12 @@ import { LoginBody, LoginBodyType } from "@/schemaValidations/auth.schema";
 import envConfig from "@/consfig";
 import { toast } from "sonner";
 import { useAppContext } from "@/app/AppProvider";
+import authApiRequest from "@/apiRequests/auth";
+import { useRouter } from "next/navigation";
 
 export default function LoginForm() {
   const { setSessionToken } = useAppContext();
+  const router = useRouter();
 
   const {
     register,
@@ -23,57 +26,18 @@ export default function LoginForm() {
   });
   async function onSubmit(values: LoginBodyType) {
     try {
-      const result = await fetch(
-        `${envConfig.NEXT_PUBLIC_API_ENDPOINT}/auth/login`,
-        {
-          method: "POST",
-          body: JSON.stringify(values),
-          headers: {
-            "Content-Type": "application/json",
-          },
-        },
-      ).then(async (res) => {
-        const payload = await res.json();
-
-        const data = {
-          status: res.status,
-          payload: payload,
-        };
-
-        if (!res.ok) {
-          throw data;
-        }
-        // thành công
-        toast.success("Đăng nhập thành công", { position: "top-right" });
-        return data;
-        // toast("Hello", {
-        //   description: "Đây là mô tả",
-        //   duration: 3000, // 3s
-        // });
-      });
+      const result = await authApiRequest.login(values);
+      // thành công
+      toast.success("Đăng nhập thành công", { position: "top-right" });
 
       // Gửi dữ liệu login vừa nhận đc từ backend sang Next.js server (API Route)
       // api/auth - api này là của nextjs server (API Route)
-      const resultFormNextServer = await fetch("api/auth", {
-        method: "POST",
-        body: JSON.stringify(result),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }).then(async (res) => {
-        const payload = await res.json();
-        const data = {
-          status: res.status,
-          payload: payload,
-        };
-
-        if (!res.ok) {
-          throw data;
-        }
-        return data;
+      await authApiRequest.auth({
+        sessionToken: result.payload.data.token,
       });
-      setSessionToken(resultFormNextServer.payload.data.token);
-
+      setSessionToken(result.payload.data.token);
+      router.push("/me");
+      console.log("result.payload.data.token", result.payload.data.token);
       // console.log("data", resultFormNextServer);
     } catch (error) {
       const errors = (error as any).payload.errors as {
