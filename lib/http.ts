@@ -5,7 +5,7 @@ import envConfig from "@/consfig";
  * - Phân biệt lỗi rõ ràng
  */
 
-class HttpError extends Error {
+export class HttpError extends Error {
   status: number; // Khai báo thuộc tính kiểu numb 200 401 422 500
   payload: any; // Lưu giẽ liệu backend trả về
 

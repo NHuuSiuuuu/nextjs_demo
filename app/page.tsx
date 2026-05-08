@@ -1,5 +1,6 @@
 import ButtonRedirect from "@/app/components/ButtonRedirect";
 import { ModeToggle } from "@/components/mode-tongle";
+import ButtonLogout from "@/components/ui/button-logout";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
@@ -20,6 +21,9 @@ export default function Home() {
         </li>
         <li>
           <ModeToggle/>
+        </li>
+        <li>
+          <ButtonLogout/>
         </li>
       </ul>
     </div>
